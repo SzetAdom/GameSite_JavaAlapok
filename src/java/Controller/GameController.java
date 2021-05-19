@@ -1,11 +1,15 @@
 package Controller;
 
+import Model.Game;
+import Service.GameService;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Date;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.json.JSONObject;
 
 /**
  *
@@ -18,6 +22,31 @@ public class GameController extends HttpServlet {
         response.setContentType("application/json;charset=UTF-8");
         request.setCharacterEncoding("UTF-8");
         try (PrintWriter out = response.getWriter()) {
+            if (request.getParameter("task").equals("addGame")) {
+                JSONObject result = new JSONObject();
+                if (!request.getParameter("name").isEmpty()
+                        && !request.getParameter("category").isEmpty()
+                        && !request.getParameter("description").isEmpty()
+                        && !request.getParameter("releasedate").isEmpty()) {
+                    try {
+                        String name = request.getParameter("name");
+                        String category = request.getParameter("category");
+                        String description = request.getParameter("description");
+                        Date releaseDate = Date.valueOf(request.getParameter("releasedate"));
+
+                        Game game = new Game(name, category, description, releaseDate);
+                        Boolean serviceResult = GameService.addGame(game);
+                        result.put("result", serviceResult);
+
+                    } catch (Exception e) {
+                        System.out.println("Hiba a JSON adatok beolvasásakor!");
+                    }
+
+                } else {
+                    result.put("result", "A mezők nincsenek megfelelően kitöltve!");
+                }
+                out.println(result);
+            }
         }
     }
 

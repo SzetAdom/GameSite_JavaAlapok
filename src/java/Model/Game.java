@@ -37,6 +37,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Game.findAll", query = "SELECT g FROM Game g"),
     @NamedQuery(name = "Game.findByGameId", query = "SELECT g FROM Game g WHERE g.gameId = :gameId"),
     @NamedQuery(name = "Game.findByName", query = "SELECT g FROM Game g WHERE g.name = :name"),
+    @NamedQuery(name = "Game.findByDescription", query = "SELECT g FROM Game g WHERE g.description = :description"),
     @NamedQuery(name = "Game.findByCategory", query = "SELECT g FROM Game g WHERE g.category = :category"),
     @NamedQuery(name = "Game.findByLikes", query = "SELECT g FROM Game g WHERE g.likes = :likes"),
     @NamedQuery(name = "Game.findByReleasedate", query = "SELECT g FROM Game g WHERE g.releasedate = :releasedate"),
@@ -51,8 +52,14 @@ public class Game implements Serializable {
     private Integer gameId;
     @Basic(optional = false)
     @NotNull
+    @Size(min = 1, max = 50)
     @Column(name = "name")
-    private int name;
+    private String name;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 255)
+    @Column(name = "description")
+    private String description;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 30)
@@ -83,13 +90,25 @@ public class Game implements Serializable {
         this.gameId = gameId;
     }
 
-    public Game(Integer gameId, int name, String category, int likes, Date releasedate, boolean isactive) {
+    public Game(Integer gameId, String name, String description, String category, int likes, Date releasedate, boolean isactive) {
         this.gameId = gameId;
         this.name = name;
+        this.description = description;
         this.category = category;
         this.likes = likes;
         this.releasedate = releasedate;
         this.isactive = isactive;
+    }
+
+    public Game(String name, String description, String category, Date releasedate) {
+        this.name = name;
+        this.description = description;
+        this.category = category;
+        this.releasedate = releasedate;
+    }
+
+    public Game(String name, String category, Integer likes, java.sql.Date releaseDate) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     public Integer getGameId() {
@@ -100,12 +119,20 @@ public class Game implements Serializable {
         this.gameId = gameId;
     }
 
-    public int getName() {
+    public String getName() {
         return name;
     }
 
-    public void setName(int name) {
+    public void setName(String name) {
         this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getCategory() {
