@@ -62,7 +62,61 @@ public class GameController extends HttpServlet {
                         Date releaseDate = Date.valueOf(request.getParameter("releasedate"));
 
                         Game game = new Game(id, name, category, description, releaseDate);
-                        Boolean serviceResult = GameService.addGame(game);
+                        Boolean serviceResult = GameService.updateGame(game);
+                        result.put("result", serviceResult);
+
+                    } catch (Exception e) {
+                        System.out.println("Hiba a JSON adatok beolvasásakor!");
+                    }
+
+                } else {
+                    result.put("result", "A mezők nincsenek megfelelően kitöltve!");
+                }
+                out.println(result);
+            }
+
+            if (request.getParameter("task").equals("deleteGame")) {
+                JSONObject result = new JSONObject();
+                if (!request.getParameter("id").isEmpty()) {
+                    try {
+                        Integer id = Integer.parseInt(request.getParameter("id"));
+                        Boolean serviceResult = GameService.deleteGame(id);
+                        result.put("result", serviceResult);
+
+                    } catch (Exception e) {
+                        System.out.println("Hiba a JSON adatok beolvasásakor!");
+                    }
+
+                } else {
+                    result.put("result", "A mezők nincsenek megfelelően kitöltve!");
+                }
+                out.println(result);
+            }
+
+            if (request.getParameter("task").equals("likeGame")) {
+                JSONObject result = new JSONObject();
+                if (!request.getParameter("id").isEmpty()) {
+                    try {
+                        Integer id = Integer.parseInt(request.getParameter("id"));
+                        Boolean serviceResult = GameService.likeGame(id);
+                        result.put("result", serviceResult);
+
+                    } catch (Exception e) {
+                        System.out.println("Hiba a JSON adatok beolvasásakor!");
+                    }
+
+                } else {
+                    result.put("result", "A mezők nincsenek megfelelően kitöltve!");
+                }
+                out.println(result);
+            }
+
+            if (request.getParameter("task").equals("dislikeGame")) {
+                JSONObject result = new JSONObject();
+                if (!request.getParameter("id").isEmpty()) {
+                    try {
+                        Integer id = Integer.parseInt(request.getParameter("id"));
+                        Boolean serviceResult = GameService.dislikeGame(id);
                         result.put("result", serviceResult);
 
                     } catch (Exception e) {

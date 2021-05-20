@@ -40,7 +40,7 @@ public class GameRepo {
             } catch (Exception ex) {
                 em.close();
 
-                System.out.println("Hiba: addGame" + ex.getMessage());
+                System.out.println("Hiba: addGame - " + ex.getMessage());
                 return false;
             }
         } catch (Exception e) {
@@ -68,7 +68,97 @@ public class GameRepo {
             } catch (Exception ex) {
                 em.close();
 
-                System.out.println("Hiba: updateGame" + ex.getMessage());
+                System.out.println("Hiba: updateGame - " + ex.getMessage());
+                return false;
+            }
+        } catch (Exception e) {
+            System.out.println("Database connection hiba! - " + e.getMessage());
+            return false;
+        }
+    }
+
+    public static Boolean deleteGame(Integer id) {
+        try {
+
+            EntityManager em = Database.getDbConn();
+            try {
+                StoredProcedureQuery spq = em.createStoredProcedureQuery("logicalDeleteGame");
+
+                spq.registerStoredProcedureParameter("in_id", Integer.class, ParameterMode.IN);
+
+                spq.setParameter("in_id", id);
+
+                spq.execute();
+
+                em.close();
+
+                System.out.println("Game sikeresen törölve!");
+                return true;
+
+            } catch (Exception ex) {
+                em.close();
+
+                System.out.println("Hiba: deleteGame - " + ex.getMessage());
+                return false;
+            }
+        } catch (Exception e) {
+            System.out.println("Database connection hiba! - " + e.getMessage());
+            return false;
+        }
+    }
+
+    public static Boolean likeGame(Integer id) {
+        try {
+
+            EntityManager em = Database.getDbConn();
+            try {
+                StoredProcedureQuery spq = em.createStoredProcedureQuery("likeGame");
+
+                spq.registerStoredProcedureParameter("in_id", Integer.class, ParameterMode.IN);
+
+                spq.setParameter("in_id", id);
+
+                spq.execute();
+
+                em.close();
+
+                System.out.println("Game sikeresen likeolva!");
+                return true;
+
+            } catch (Exception ex) {
+                em.close();
+
+                System.out.println("Hiba: likeGame" + ex.getMessage());
+                return false;
+            }
+        } catch (Exception e) {
+            System.out.println("Database connection hiba! - " + e.getMessage());
+            return false;
+        }
+    }
+
+    public static Boolean dislikeGame(Integer id) {
+        try {
+
+            EntityManager em = Database.getDbConn();
+            try {
+                StoredProcedureQuery spq = em.createStoredProcedureQuery("dislikeGame");
+
+                spq.registerStoredProcedureParameter("in_id", Integer.class, ParameterMode.IN);
+
+                spq.setParameter("in_id", id);
+
+                spq.execute();
+
+                em.close();
+
+                System.out.println("Game sikeresen dislikeolva!");
+                return true;
+
+            } catch (Exception ex) {
+                em.close();
+
+                System.out.println("Hiba: dislikeGame - " + ex.getMessage());
                 return false;
             }
         } catch (Exception e) {
