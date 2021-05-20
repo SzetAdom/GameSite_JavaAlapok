@@ -3,7 +3,9 @@ package Repository;
 
 import Model.User;
 import Model.Database;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.ParameterMode;
 import javax.persistence.StoredProcedureQuery;
@@ -61,4 +63,27 @@ public class UserRepo {
             return false;
         }
     }
+    
+    /*
+    public static List<User> getAllUsers(){
+        List<User> result = new ArrayList();
+        try{
+            EntityManager em = Database.getDbConn();
+            StoredProcedureQuery spq = em.createStoredProcedureQuery("getAllUsers");
+            
+            List<Object[]> movies = spq.getResultList();
+            for(Object[] movie : movies){
+                int id = Integer.parseInt(movie[0].toString());
+                User m = em.find(User.class, id);
+                result.add(m);
+            }
+        }
+        catch(Exception ex){
+            return null;
+        }
+        finally{
+            return result;
+        }  
+    }
+*/
 }
