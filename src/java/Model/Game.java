@@ -107,6 +107,14 @@ public class Game implements Serializable {
         this.releasedate = releasedate;
     }
 
+    public Game(Integer gameId, String name, String description, String category, Date releasedate) {
+        this.gameId = gameId;
+        this.name = name;
+        this.description = description;
+        this.category = category;
+        this.releasedate = releasedate;
+    }
+
     public Game(String name, String category, Integer likes, java.sql.Date releaseDate) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }

@@ -49,4 +49,32 @@ public class GameRepo {
         }
     }
 
+    public static Boolean updateGame(Game game) {
+        try {
+
+            EntityManager em = Database.getDbConn();
+            try {
+                em.getTransaction().begin();
+                Game uj = em.find(Game.class, game.getGameId());
+                uj.setName(game.getName());
+                uj.setCategory(game.getCategory());
+                uj.setDescription(game.getDescription());
+                uj.setReleasedate(game.getReleasedate());
+                em.getTransaction().commit();
+
+                System.out.println("Game sikeresen frissítve!");
+                return true;
+
+            } catch (Exception ex) {
+                em.close();
+
+                System.out.println("Hiba: updateGame" + ex.getMessage());
+                return false;
+            }
+        } catch (Exception e) {
+            System.out.println("Database connection hiba! - " + e.getMessage());
+            return false;
+        }
+    }
+
 }

@@ -47,6 +47,33 @@ public class GameController extends HttpServlet {
                 }
                 out.println(result);
             }
+            if (request.getParameter("task").equals("updateGame")) {
+                JSONObject result = new JSONObject();
+                if (!request.getParameter("id").isEmpty()
+                        && !request.getParameter("name").isEmpty()
+                        && !request.getParameter("category").isEmpty()
+                        && !request.getParameter("description").isEmpty()
+                        && !request.getParameter("releasedate").isEmpty()) {
+                    try {
+                        Integer id = Integer.parseInt(request.getParameter("id"));
+                        String name = request.getParameter("name");
+                        String category = request.getParameter("category");
+                        String description = request.getParameter("description");
+                        Date releaseDate = Date.valueOf(request.getParameter("releasedate"));
+
+                        Game game = new Game(id, name, category, description, releaseDate);
+                        Boolean serviceResult = GameService.addGame(game);
+                        result.put("result", serviceResult);
+
+                    } catch (Exception e) {
+                        System.out.println("Hiba a JSON adatok beolvasásakor!");
+                    }
+
+                } else {
+                    result.put("result", "A mezők nincsenek megfelelően kitöltve!");
+                }
+                out.println(result);
+            }
         }
     }
 
