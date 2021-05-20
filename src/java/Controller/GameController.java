@@ -36,9 +36,35 @@ public class GameController extends HttpServlet {
                         String description = request.getParameter("description");
                         Date releaseDate = Date.valueOf(request.getParameter("releasedate"));
 
-                        Game game = new Game(name, category, description, releaseDate);
+                        Game game = new Game(name, description, category, releaseDate);
                         Boolean serviceResult = GameService.addGame(game);
-                        result.put("result", serviceResult);
+                        if (serviceResult != null) {
+                            result.put("result", serviceResult);
+                        } else {
+                            result.put("result", "Hibás értékek!");
+                        }
+
+                    } catch (Exception e) {
+                        System.out.println("Hiba a JSON adatok beolvasásakor!");
+                    }
+
+                } else {
+                    result.put("result", "A mezők nincsenek megfelelően kitöltve!");
+                }
+                out.println(result);
+            }
+
+            if (request.getParameter("task").equals("getGameById")) {
+                JSONObject result = new JSONObject();
+                if (!request.getParameter("id").isEmpty()) {
+                    try {
+                        Integer id = Integer.parseInt(request.getParameter("id"));
+                        Game serviceResult = GameService.getGameById(id);
+                        if (serviceResult != null) {
+                            result.put("result", serviceResult.toString());
+                        } else {
+                            result.put("result", "Hibás értékek!");
+                        }
 
                     } catch (Exception e) {
                         System.out.println("Hiba a JSON adatok beolvasásakor!");
@@ -80,9 +106,13 @@ public class GameController extends HttpServlet {
                         String description = request.getParameter("description");
                         Date releaseDate = Date.valueOf(request.getParameter("releasedate"));
 
-                        Game game = new Game(id, name, category, description, releaseDate);
+                        Game game = new Game(id, name, description, category, releaseDate);
                         Boolean serviceResult = GameService.updateGame(game);
-                        result.put("result", serviceResult);
+                        if (serviceResult != null) {
+                            result.put("result", serviceResult);
+                        } else {
+                            result.put("result", "Hibás értékek!");
+                        }
 
                     } catch (Exception e) {
                         System.out.println("Hiba a JSON adatok beolvasásakor!");
@@ -100,7 +130,11 @@ public class GameController extends HttpServlet {
                     try {
                         Integer id = Integer.parseInt(request.getParameter("id"));
                         Boolean serviceResult = GameService.deleteGame(id);
-                        result.put("result", serviceResult);
+                        if (serviceResult != null) {
+                            result.put("result", serviceResult);
+                        } else {
+                            result.put("result", "Hibás értékek!");
+                        }
 
                     } catch (Exception e) {
                         System.out.println("Hiba a JSON adatok beolvasásakor!");
@@ -118,7 +152,11 @@ public class GameController extends HttpServlet {
                     try {
                         Integer id = Integer.parseInt(request.getParameter("id"));
                         Boolean serviceResult = GameService.likeGame(id);
-                        result.put("result", serviceResult);
+                        if (serviceResult != null) {
+                            result.put("result", serviceResult);
+                        } else {
+                            result.put("result", "Hibás értékek!");
+                        }
 
                     } catch (Exception e) {
                         System.out.println("Hiba a JSON adatok beolvasásakor!");
@@ -136,7 +174,11 @@ public class GameController extends HttpServlet {
                     try {
                         Integer id = Integer.parseInt(request.getParameter("id"));
                         Boolean serviceResult = GameService.dislikeGame(id);
-                        result.put("result", serviceResult);
+                        if (serviceResult != null) {
+                            result.put("result", serviceResult);
+                        } else {
+                            result.put("result", "Hibás értékek!");
+                        }
 
                     } catch (Exception e) {
                         System.out.println("Hiba a JSON adatok beolvasásakor!");

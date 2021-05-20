@@ -216,7 +216,12 @@ public class Game implements Serializable {
 
     @Override
     public String toString() {
-        return "Model.Game[ gameId=" + gameId + " ]";
+        return "id: " + gameId
+                + ", name: " + name
+                + ", category: " + name
+                + ", description: " + name
+                + ", likes: " + name
+                + ", releaseDate: " + name;
     }
 
     public JSONObject toJson() {

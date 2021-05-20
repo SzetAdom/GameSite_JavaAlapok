@@ -83,6 +83,28 @@ public class GameRepo {
         }
     }
 
+    public static Game getGameById(Integer id) {
+
+        try {
+
+            EntityManager em = Database.getDbConn();
+            try {
+                Game game = em.find(Game.class, id);
+                em.close();
+                return game;
+
+            } catch (Exception ex) {
+                em.close();
+
+                System.out.println("Hiba: getGameById - " + ex.getMessage());
+                return null;
+            }
+        } catch (Exception e) {
+            System.out.println("Database connection hiba! - " + e.getMessage());
+            return null;
+        }
+    }
+
     public static Boolean updateGame(Game game) {
         try {
 

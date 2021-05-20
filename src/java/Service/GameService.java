@@ -13,8 +13,7 @@ public class GameService {
     public static Boolean addGame(Game game) {
         System.out.println("------------------------");
         System.out.println("addGame");
-        if (game.getGameId() > 0
-                && game.getName().length() < 50
+        if (game.getName().length() < 50
                 && game.getCategory().length() < 30
                 && game.getDescription().length() < 255) {
             return GameRepo.addGame(game);
@@ -24,17 +23,18 @@ public class GameService {
         }
     }
 
-//    public static Game getGame(Integer id) {
-//        System.out.println("------------------------");
-//        System.out.println("getGame");
-//        if (id > 0) {
-//            return GameRepo.getGame(id);
-//        } else {
-//            System.out.println("Hibás értékek");
-//            return null;
-//        }
-//
-//    }
+    public static Game getGameById(Integer id) {
+        System.out.println("------------------------");
+        System.out.println("getGame");
+        if (id > 0) {
+            return GameRepo.getGameById(id);
+        } else {
+            System.out.println("Hibás értékek");
+            return null;
+        }
+
+    }
+
     public static List<Game> getAllActiveGames() {
         System.out.println("------------------------");
         System.out.println("getAllActiveGames");
@@ -62,7 +62,7 @@ public class GameService {
             return GameRepo.deleteGame(id);
         } else {
             System.out.println("Hibás értékek");
-            return false;
+            return null;
         }
     }
 
@@ -73,7 +73,7 @@ public class GameService {
             return GameRepo.likeGame(id);
         } else {
             System.out.println("Hibás értékek");
-            return false;
+            return null;
         }
     }
 
@@ -84,7 +84,7 @@ public class GameService {
             return GameRepo.dislikeGame(id);
         } else {
             System.out.println("Hibás értékek");
-            return false;
+            return null;
         }
     }
 }
