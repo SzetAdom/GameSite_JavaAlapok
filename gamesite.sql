@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.0
+-- version 5.0.4
 -- https://www.phpmyadmin.net/
 --
--- Gép: 127.0.0.1
--- Létrehozás ideje: 2021. Máj 18. 21:35
--- Kiszolgáló verziója: 10.4.19-MariaDB
--- PHP verzió: 8.0.6
+-- Host: 127.0.0.1
+-- Generation Time: May 20, 2021 at 10:59 AM
+-- Server version: 10.4.17-MariaDB
+-- PHP Version: 8.0.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,13 +18,34 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Adatbázis: `gamesite`
+-- Database: `gamesite`
 --
+
+DELIMITER $$
+--
+-- Procedures
+--
+CREATE DEFINER=`root`@`localhost` PROCEDURE `addGame` (IN `in_name` VARCHAR(50) CHARSET utf8, IN `in_category` VARCHAR(30) CHARSET utf8, IN `in_description` VARCHAR(255) CHARSET utf8, IN `in_release` DATE)  NO SQL
+INSERT INTO game (game.name, game.category, game.description, game.releasedate) VALUES(in_name, in_category, in_description,in_release)$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `dislikeGame` (IN `in_id` INT)  NO SQL
+UPDATE game SET game.likes = game.likes - 1 WHERE game.game_id = in_id$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getAllActiveGames` ()  NO SQL
+SELECT * FROM game WHERE game.isactive =1$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `likeGame` (IN `in_id` INT(11))  NO SQL
+UPDATE game SET game.likes = game.likes+1 WHERE game.game_id = in_id$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `logicalDeleteGame` (IN `in_id` INT(11))  NO SQL
+UPDATE game SET game.isactive = 0 WHERE game.game_id = in_id$$
+
+DELIMITER ;
 
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `comment`
+-- Table structure for table `comment`
 --
 
 CREATE TABLE `comment` (
@@ -41,7 +62,7 @@ CREATE TABLE `comment` (
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `coupon`
+-- Table structure for table `coupon`
 --
 
 CREATE TABLE `coupon` (
@@ -55,7 +76,7 @@ CREATE TABLE `coupon` (
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `coupon_type`
+-- Table structure for table `coupon_type`
 --
 
 CREATE TABLE `coupon_type` (
@@ -70,14 +91,15 @@ CREATE TABLE `coupon_type` (
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `game`
+-- Table structure for table `game`
 --
 
 CREATE TABLE `game` (
   `game_id` int(11) NOT NULL,
-  `name` int(11) NOT NULL,
+  `name` varchar(50) NOT NULL,
+  `description` varchar(255) NOT NULL,
   `category` varchar(30) NOT NULL,
-  `likes` int(11) NOT NULL,
+  `likes` int(11) NOT NULL DEFAULT 0,
   `releasedate` date NOT NULL,
   `isactive` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -85,7 +107,7 @@ CREATE TABLE `game` (
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `statistics`
+-- Table structure for table `statistics`
 --
 
 CREATE TABLE `statistics` (
@@ -101,7 +123,7 @@ CREATE TABLE `statistics` (
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `user`
+-- Table structure for table `user`
 --
 
 CREATE TABLE `user` (
@@ -116,11 +138,11 @@ CREATE TABLE `user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Indexek a kiírt táblákhoz
+-- Indexes for dumped tables
 --
 
 --
--- A tábla indexei `comment`
+-- Indexes for table `comment`
 --
 ALTER TABLE `comment`
   ADD PRIMARY KEY (`comment_id`),
@@ -129,7 +151,7 @@ ALTER TABLE `comment`
   ADD KEY `comment_reply_to` (`reply_to_id`);
 
 --
--- A tábla indexei `coupon`
+-- Indexes for table `coupon`
 --
 ALTER TABLE `coupon`
   ADD PRIMARY KEY (`coupon_id`),
@@ -137,19 +159,19 @@ ALTER TABLE `coupon`
   ADD KEY `coupon_coupon_type` (`coupon_type_id`);
 
 --
--- A tábla indexei `coupon_type`
+-- Indexes for table `coupon_type`
 --
 ALTER TABLE `coupon_type`
   ADD PRIMARY KEY (`coupon_type_id`);
 
 --
--- A tábla indexei `game`
+-- Indexes for table `game`
 --
 ALTER TABLE `game`
   ADD PRIMARY KEY (`game_id`);
 
 --
--- A tábla indexei `statistics`
+-- Indexes for table `statistics`
 --
 ALTER TABLE `statistics`
   ADD PRIMARY KEY (`statistics_id`),
@@ -157,57 +179,57 @@ ALTER TABLE `statistics`
   ADD KEY `statistics_game` (`game_id`);
 
 --
--- A tábla indexei `user`
+-- Indexes for table `user`
 --
 ALTER TABLE `user`
   ADD PRIMARY KEY (`user_id`);
 
 --
--- A kiírt táblák AUTO_INCREMENT értéke
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT a táblához `comment`
+-- AUTO_INCREMENT for table `comment`
 --
 ALTER TABLE `comment`
   MODIFY `comment_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT a táblához `coupon`
+-- AUTO_INCREMENT for table `coupon`
 --
 ALTER TABLE `coupon`
   MODIFY `coupon_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT a táblához `coupon_type`
+-- AUTO_INCREMENT for table `coupon_type`
 --
 ALTER TABLE `coupon_type`
   MODIFY `coupon_type_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT a táblához `game`
+-- AUTO_INCREMENT for table `game`
 --
 ALTER TABLE `game`
-  MODIFY `game_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `game_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
--- AUTO_INCREMENT a táblához `statistics`
+-- AUTO_INCREMENT for table `statistics`
 --
 ALTER TABLE `statistics`
   MODIFY `statistics_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT a táblához `user`
+-- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
   MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- Megkötések a kiírt táblákhoz
+-- Constraints for dumped tables
 --
 
 --
--- Megkötések a táblához `comment`
+-- Constraints for table `comment`
 --
 ALTER TABLE `comment`
   ADD CONSTRAINT `comment_game` FOREIGN KEY (`game_id`) REFERENCES `game` (`game_id`),
@@ -215,14 +237,14 @@ ALTER TABLE `comment`
   ADD CONSTRAINT `comment_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`);
 
 --
--- Megkötések a táblához `coupon`
+-- Constraints for table `coupon`
 --
 ALTER TABLE `coupon`
   ADD CONSTRAINT `coupon_coupon_type` FOREIGN KEY (`coupon_type_id`) REFERENCES `coupon_type` (`coupon_type_id`),
   ADD CONSTRAINT `coupon_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`);
 
 --
--- Megkötések a táblához `statistics`
+-- Constraints for table `statistics`
 --
 ALTER TABLE `statistics`
   ADD CONSTRAINT `statistics_game` FOREIGN KEY (`game_id`) REFERENCES `game` (`game_id`),
