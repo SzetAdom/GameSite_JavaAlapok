@@ -25,6 +25,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import org.json.JSONObject;
 
 /**
  *
@@ -218,4 +219,15 @@ public class Game implements Serializable {
         return "Model.Game[ gameId=" + gameId + " ]";
     }
 
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("id: ", gameId);
+        json.put("name: ", name);
+        json.put("category: ", category);
+        json.put("description: ", description);
+        json.put("likes: ", likes);
+        json.put("releaseDate: ", releasedate);
+
+        return json;
+    }
 }

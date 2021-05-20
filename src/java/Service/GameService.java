@@ -2,6 +2,7 @@ package Service;
 
 import Model.Game;
 import Repository.GameRepo;
+import java.util.List;
 
 /**
  *
@@ -26,15 +27,20 @@ public class GameService {
 //    public static Game getGame(Integer id) {
 //        System.out.println("------------------------");
 //        System.out.println("getGame");
-//        return GameRepo.getGame(id);
-//    }
+//        if (id > 0) {
+//            return GameRepo.getGame(id);
+//        } else {
+//            System.out.println("Hibás értékek");
+//            return null;
+//        }
 //
-//    public static Boolean getAllGame() {
-//        System.out.println("------------------------");
-//        System.out.println("getAllGame");
-//        return GameRepo.getAllGame();
 //    }
-//
+    public static List<Game> getAllActiveGames() {
+        System.out.println("------------------------");
+        System.out.println("getAllActiveGames");
+        return GameRepo.getAllActiveGames();
+    }
+
     public static Boolean updateGame(Game game) {
         System.out.println("------------------------");
         System.out.println("updateGame");

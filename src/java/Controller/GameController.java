@@ -5,10 +5,12 @@ import Service.GameService;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Date;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
@@ -47,6 +49,23 @@ public class GameController extends HttpServlet {
                 }
                 out.println(result);
             }
+
+            if (request.getParameter("task").equals("getAllActiveGames")) {
+                JSONArray returnValue = new JSONArray();
+                List<Game> games = GameService.getAllActiveGames();
+                if (games.isEmpty()) {
+                    JSONObject obj = new JSONObject();
+                    obj.put("Result", "Nincs aktív játék");
+                    returnValue.put(obj);
+                    out.print(returnValue.toString());
+                } else {
+                    for (Game g : games) {
+                        returnValue.put(g.toJson());
+                    }
+                    out.print(returnValue);
+                }
+            }
+
             if (request.getParameter("task").equals("updateGame")) {
                 JSONObject result = new JSONObject();
                 if (!request.getParameter("id").isEmpty()
@@ -128,6 +147,8 @@ public class GameController extends HttpServlet {
                 }
                 out.println(result);
             }
+        } catch (Exception ex) {
+            System.out.println("JSON exception - " + ex.getMessage());
         }
     }
 

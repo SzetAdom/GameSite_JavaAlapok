@@ -2,7 +2,9 @@ package Repository;
 
 import Model.Database;
 import Model.Game;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.ParameterMode;
 import javax.persistence.StoredProcedureQuery;
@@ -46,6 +48,38 @@ public class GameRepo {
         } catch (Exception e) {
             System.out.println("Database connection hiba! - " + e.getMessage());
             return false;
+        }
+    }
+
+    public static List<Game> getAllActiveGames() {
+
+        try {
+
+            EntityManager em = Database.getDbConn();
+            try {
+                StoredProcedureQuery spq = em.createStoredProcedureQuery("getAllActiveGames");
+                List<Game> result = new ArrayList<>();
+
+                List<Object[]> games = spq.getResultList();
+                for (Object[] game : games) {
+                    int id = Integer.parseInt(game[0].toString());
+                    Game g = em.find(Game.class, id);
+                    result.add(g);
+                }
+
+                em.close();
+
+                return result;
+
+            } catch (Exception ex) {
+                em.close();
+
+                System.out.println("Hiba: getAllActiveGames - " + ex.getMessage());
+                return null;
+            }
+        } catch (Exception e) {
+            System.out.println("Database connection hiba! - " + e.getMessage());
+            return null;
         }
     }
 
