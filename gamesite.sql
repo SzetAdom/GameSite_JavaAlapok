@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 21, 2021 at 12:24 AM
+-- Generation Time: May 21, 2021 at 10:02 AM
 -- Server version: 10.4.17-MariaDB
 -- PHP Version: 8.0.1
 
@@ -56,8 +56,8 @@ SELECT * FROM user WHERE user.user_id IN (SELECT statistics.user_id FROM statist
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getStatisticsById` (IN `in_id` INT(11))  NO SQL
 SELECT * FROM statistics WHERE statistics.isactive = 1 AND statistics.statistics_id = in_id$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getTotalPlayedMinutes` ()  NO SQL
-SELECT SUM(statistics.played_minutes) FROM statistics$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getTotalPlayedMinutes` (OUT `out_total_played_minutes` INT)  NO SQL
+SELECT SUM(statistics.played_minutes) = out_total_played_minutes FROM statistics$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getUsersCoupons` (IN `in_user_id` INT(11))  SELECT * FROM coupon WHERE coupon.user_id = in_user_id AND coupon.isactive = 1$$
 
@@ -155,8 +155,8 @@ CREATE TABLE `statistics` (
   `statistics_id` int(11) NOT NULL,
   `game_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
-  `first_played` datetime NOT NULL,
-  `last_played` datetime NOT NULL,
+  `first_played` date NOT NULL,
+  `last_played` date NOT NULL,
   `played_minutes` int(11) NOT NULL,
   `isactive` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -166,8 +166,8 @@ CREATE TABLE `statistics` (
 --
 
 INSERT INTO `statistics` (`statistics_id`, `game_id`, `user_id`, `first_played`, `last_played`, `played_minutes`, `isactive`) VALUES
-(4, 1, 1, '2021-01-01 00:00:00', '2021-01-01 00:00:00', 10, 1),
-(5, 1, 2, '2021-01-01 00:00:00', '2021-01-01 00:00:00', 10, 1);
+(4, 1, 1, '2021-01-01', '2021-01-01', 10, 1),
+(5, 1, 2, '2021-01-01', '2021-01-01', 10, 1);
 
 -- --------------------------------------------------------
 
