@@ -73,7 +73,7 @@ public class StatisticsService {
         return StatisticsRepo.getTotalPlayedMinutes();
     }
 
-    public static User getMostActivePlayer() {
+    public static List<User> getMostActivePlayer() {
         System.out.println("------------------------");
         System.out.println("getMostActivePlayer");
         return StatisticsRepo.getMostActivePlayer();
