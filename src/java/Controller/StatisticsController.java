@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
  * @author adams
  */
 @WebServlet(name = "StatiscticsController", urlPatterns = {"/StatiscticsController"})
-public class StatiscticsController extends HttpServlet {
+public class StatisticsController extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
