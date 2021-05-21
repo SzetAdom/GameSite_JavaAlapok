@@ -29,8 +29,8 @@ public class StatisticsRepo {
                 spq.registerStoredProcedureParameter("in_last_played", Date.class, ParameterMode.IN);
                 spq.registerStoredProcedureParameter("in_played_minutes", Integer.class, ParameterMode.IN);
 
-                spq.setParameter("in_game_id", statistics.getGameId());
-                spq.setParameter("in_user_id", statistics.getUserId());
+                spq.setParameter("in_game_id", statistics.getGameId().getGameId());
+                spq.setParameter("in_user_id", statistics.getUserId().getUserId());
                 spq.setParameter("in_first_played", statistics.getFirstPlayed());
                 spq.setParameter("in_last_played", statistics.getLastPlayed());
                 spq.setParameter("in_played_minutes", statistics.getPlayedMinutes());

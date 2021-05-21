@@ -85,6 +85,16 @@ public class Statistics implements Serializable {
         this.isactive = isactive;
     }
 
+    public Statistics(Integer gameId, Integer userId, java.sql.Date firstPlayed, java.sql.Date lastPlayed, Integer playedMinutes) {
+        this.gameId = new Game();
+        this.gameId.setGameId(gameId);
+        this.userId = new User();
+        this.userId.setUserId(userId);
+        this.firstPlayed = firstPlayed;
+        this.lastPlayed = lastPlayed;
+        this.playedMinutes = playedMinutes;
+    }
+
     public Integer getStatisticsId() {
         return statisticsId;
     }

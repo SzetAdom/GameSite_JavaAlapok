@@ -15,9 +15,7 @@ public class StatisticsService {
     public static Boolean addStatistics(Statistics statistics) {
         System.out.println("------------------------");
         System.out.println("addStatistics");
-        if (statistics.getPlayedMinutes() >= 0
-                && new Date().after(statistics.getFirstPlayed())
-                && statistics.getLastPlayed().after(statistics.getFirstPlayed())) {
+        if (statistics.getPlayedMinutes() >= 0) {
             return StatisticsRepo.addStatistics(statistics);
         } else {
             System.out.println("Hibás értékek");
