@@ -177,9 +177,9 @@ public class StatisticsRepo {
 
                 spq.registerStoredProcedureParameter("out_total_played_minutes", Integer.class, ParameterMode.OUT);
 
-                spq.setParameter("out_total_played_minutes", totalPlayedMinutes);
-
                 spq.execute();
+
+                totalPlayedMinutes = (Integer) spq.getOutputParameterValue("out_total_played_minutes");
 
                 em.close();
 
@@ -198,19 +198,19 @@ public class StatisticsRepo {
         }
     }
 
-    public static List<User> getMostActivePlayer() {
+    public static List<Integer> getMostActivePlayer() {
         try {
             EntityManager em = Database.getDbConn();
             try {
                 StoredProcedureQuery spq = em.createStoredProcedureQuery("getMostActivePlayer");
 
-                List<User> result = new ArrayList<>();
+                List<Integer> result = new ArrayList<>();
 
                 List<Object[]> userList = spq.getResultList();
                 for (Object[] user : userList) {
                     int id = Integer.parseInt(user[0].toString());
                     User u = em.find(User.class, id);
-                    result.add(u);
+                    result.add(u.getUserId());
                 }
                 return result;
 
