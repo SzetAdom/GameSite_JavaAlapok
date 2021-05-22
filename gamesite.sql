@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 21, 2021 at 10:02 AM
+-- Generation Time: May 22, 2021 at 04:04 PM
 -- Server version: 10.4.17-MariaDB
 -- PHP Version: 8.0.1
 
@@ -51,13 +51,13 @@ SELECT * FROM statistics WHERE statistics.isactive = 1$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getAllPurchaseableCouponTypes` ()  SELECT * FROM coupon_type WHERE coupon_type.purchaseable = 1 AND coupon_type.isactive = 1$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getMostActivePlayer` ()  NO SQL
-SELECT * FROM user WHERE user.user_id IN (SELECT statistics.user_id FROM statistics WHERE statistics.played_minutes IN (SELECT MAX(statistics.played_minutes) FROM statistics) ORDER BY statistics.played_minutes DESC)$$
+SELECT user.user_id FROM user WHERE user.user_id IN (SELECT statistics.user_id FROM statistics WHERE statistics.played_minutes IN (SELECT MAX(statistics.played_minutes) FROM statistics) ORDER BY statistics.played_minutes DESC)$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getStatisticsById` (IN `in_id` INT(11))  NO SQL
 SELECT * FROM statistics WHERE statistics.isactive = 1 AND statistics.statistics_id = in_id$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getTotalPlayedMinutes` (OUT `out_total_played_minutes` INT)  NO SQL
-SELECT SUM(statistics.played_minutes) = out_total_played_minutes FROM statistics$$
+SELECT SUM(statistics.played_minutes) INTO out_total_played_minutes FROM statistics$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getUsersCoupons` (IN `in_user_id` INT(11))  SELECT * FROM coupon WHERE coupon.user_id = in_user_id AND coupon.isactive = 1$$
 
@@ -167,7 +167,8 @@ CREATE TABLE `statistics` (
 
 INSERT INTO `statistics` (`statistics_id`, `game_id`, `user_id`, `first_played`, `last_played`, `played_minutes`, `isactive`) VALUES
 (4, 1, 1, '2021-01-01', '2021-01-01', 10, 1),
-(5, 1, 2, '2021-01-01', '2021-01-01', 10, 1);
+(5, 1, 2, '2021-01-01', '2021-01-01', 10, 0),
+(12, 1, 2, '2021-02-01', '2021-02-04', 10, 0);
 
 -- --------------------------------------------------------
 
@@ -273,7 +274,7 @@ ALTER TABLE `game`
 -- AUTO_INCREMENT for table `statistics`
 --
 ALTER TABLE `statistics`
-  MODIFY `statistics_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `statistics_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `user`
