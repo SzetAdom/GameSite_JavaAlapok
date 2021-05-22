@@ -18,7 +18,7 @@ public class CouponTypeRepo {
         
             spq.registerStoredProcedureParameter("in_shop", String.class, ParameterMode.IN);
             spq.registerStoredProcedureParameter("in_value", Integer.class, ParameterMode.IN);
-            spq.registerStoredProcedureParameter("in_purchaseable", Integer.class, ParameterMode.IN);
+            spq.registerStoredProcedureParameter("in_purchaseable", Boolean.class, ParameterMode.IN);
             spq.registerStoredProcedureParameter("in_lasts", Integer.class, ParameterMode.IN);
             
             spq.setParameter("in_shop", c.getShop());
@@ -78,7 +78,7 @@ public class CouponTypeRepo {
         }
     }
         
-        public static boolean logicalDeleteCouponType(CouponType c){
+        public static boolean logicalDeleteCouponType(Integer id){
         try{
             EntityManager em = Database.getDbConn();
             
@@ -86,7 +86,7 @@ public class CouponTypeRepo {
         
             spq.registerStoredProcedureParameter("in_id", Integer.class, ParameterMode.IN);
             
-            spq.setParameter("in_id", c.getCouponTypeId());
+            spq.setParameter("in_id", id);
             
             spq.execute();
             return true;
