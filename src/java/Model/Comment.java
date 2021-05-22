@@ -75,7 +75,7 @@ public class Comment implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "replyToId")
     private Collection<Comment> commentCollection;
     @JoinColumn(name = "reply_to_id", referencedColumnName = "comment_id")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = true)
     private Comment replyToId;
     @JoinColumn(name = "user_id", referencedColumnName = "user_id")
     @ManyToOne(optional = false)
