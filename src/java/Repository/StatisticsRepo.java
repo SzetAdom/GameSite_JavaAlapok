@@ -23,8 +23,8 @@ public class StatisticsRepo {
             try {
                 StoredProcedureQuery spq = em.createStoredProcedureQuery("addStatistics");
 
-                spq.registerStoredProcedureParameter("in_game_id", String.class, ParameterMode.IN);
-                spq.registerStoredProcedureParameter("in_user_id", String.class, ParameterMode.IN);
+                spq.registerStoredProcedureParameter("in_game_id", Integer.class, ParameterMode.IN);
+                spq.registerStoredProcedureParameter("in_user_id", Integer.class, ParameterMode.IN);
                 spq.registerStoredProcedureParameter("in_first_played", Date.class, ParameterMode.IN);
                 spq.registerStoredProcedureParameter("in_last_played", Date.class, ParameterMode.IN);
                 spq.registerStoredProcedureParameter("in_played_minutes", Integer.class, ParameterMode.IN);
