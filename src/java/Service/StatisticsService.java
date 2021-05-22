@@ -1,7 +1,6 @@
 package Service;
 
 import Model.Statistics;
-import Model.User;
 import Repository.StatisticsRepo;
 import java.util.Date;
 import java.util.List;
@@ -15,7 +14,10 @@ public class StatisticsService {
     public static Boolean addStatistics(Statistics statistics) {
         System.out.println("------------------------");
         System.out.println("addStatistics");
-        if (statistics.getPlayedMinutes() >= 0) {
+        if (statistics.getPlayedMinutes() >= 0
+                && new Date().after(statistics.getFirstPlayed())
+                && (statistics.getLastPlayed().after(statistics.getFirstPlayed())
+                || statistics.getLastPlayed().equals(statistics.getFirstPlayed()))) {
             return StatisticsRepo.addStatistics(statistics);
         } else {
             System.out.println("Hibás értékek");
@@ -46,7 +48,8 @@ public class StatisticsService {
         System.out.println("updateStatistics");
         if (statistics.getPlayedMinutes() >= 0
                 && new Date().after(statistics.getFirstPlayed())
-                && statistics.getLastPlayed().after(statistics.getFirstPlayed())) {
+                && (statistics.getLastPlayed().after(statistics.getFirstPlayed())
+                || statistics.getLastPlayed().equals(statistics.getFirstPlayed()))) {
             return StatisticsRepo.updateStatistics(statistics);
         } else {
             System.out.println("Hibás értékek");
@@ -71,7 +74,7 @@ public class StatisticsService {
         return StatisticsRepo.getTotalPlayedMinutes();
     }
 
-    public static List<User> getMostActivePlayer() {
+    public static List<Integer> getMostActivePlayer() {
         System.out.println("------------------------");
         System.out.println("getMostActivePlayer");
         return StatisticsRepo.getMostActivePlayer();
