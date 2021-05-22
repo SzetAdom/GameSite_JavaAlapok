@@ -22,6 +22,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
+import org.json.JSONObject;
 
 /**
  *
@@ -86,6 +87,17 @@ public class Statistics implements Serializable {
     }
 
     public Statistics(Integer gameId, Integer userId, java.sql.Date firstPlayed, java.sql.Date lastPlayed, Integer playedMinutes) {
+        this.gameId = new Game();
+        this.gameId.setGameId(gameId);
+        this.userId = new User();
+        this.userId.setUserId(userId);
+        this.firstPlayed = firstPlayed;
+        this.lastPlayed = lastPlayed;
+        this.playedMinutes = playedMinutes;
+    }
+
+    public Statistics(Integer id, Integer gameId, Integer userId, java.sql.Date firstPlayed, java.sql.Date lastPlayed, Integer playedMinutes) {
+        this.statisticsId = id;
         this.gameId = new Game();
         this.gameId.setGameId(gameId);
         this.userId = new User();
@@ -173,7 +185,24 @@ public class Statistics implements Serializable {
 
     @Override
     public String toString() {
-        return "Model.Statistics[ statisticsId=" + statisticsId + " ]";
+        return "id: " + statisticsId
+                + ", userId: " + userId.getUserId()
+                + ", gameId: " + gameId.getGameId()
+                + ", firstPlayed: " + firstPlayed
+                + ", lastPlayed: " + lastPlayed
+                + ", playedMinutes: " + playedMinutes;
+    }
+
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("id: ", statisticsId);
+        json.put("gameId: ", gameId.getGameId());
+        json.put("userId: ", userId.getUserId());
+        json.put("firstPlayed: ", firstPlayed);
+        json.put("lastPlayed: ", lastPlayed);
+        json.put("playedMinutes: ", playedMinutes);
+
+        return json;
     }
 
 }
