@@ -1,8 +1,6 @@
 package Controller;
 
-import Model.Game;
 import Model.Statistics;
-import Service.GameService;
 import Service.StatisticsService;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -61,12 +59,12 @@ public class StatisticsController extends HttpServlet {
                 out.println(result);
             }
 
-            if (request.getParameter("task").equals("getGameById")) {
+            if (request.getParameter("task").equals("getStatisticsById")) {
                 JSONObject result = new JSONObject();
                 if (!request.getParameter("id").isEmpty()) {
                     try {
                         Integer id = Integer.parseInt(request.getParameter("id"));
-                        Game serviceResult = GameService.getGameById(id);
+                        Statistics serviceResult = StatisticsService.getStatisticsById(id);
                         if (serviceResult != null) {
                             result.put("result", serviceResult.toString());
                         } else {
@@ -83,38 +81,40 @@ public class StatisticsController extends HttpServlet {
                 out.println(result);
             }
 
-            if (request.getParameter("task").equals("getAllActiveGames")) {
+            if (request.getParameter("task").equals("getAllActiveStatistics")) {
                 JSONArray returnValue = new JSONArray();
-                List<Game> games = GameService.getAllActiveGames();
-                if (games.isEmpty()) {
+                List<Statistics> statisticses = StatisticsService.getAllActiveStatistics();
+                if (statisticses.isEmpty()) {
                     JSONObject obj = new JSONObject();
-                    obj.put("Result", "Nincs aktív játék");
+                    obj.put("Result", "Nincs aktív statisztika");
                     returnValue.put(obj);
                     out.print(returnValue.toString());
                 } else {
-                    for (Game g : games) {
-                        returnValue.put(g.toJson());
+                    for (Statistics s : statisticses) {
+                        returnValue.put(s.toJson());
                     }
                     out.print(returnValue);
                 }
             }
 
-            if (request.getParameter("task").equals("updateGame")) {
+            if (request.getParameter("task").equals("updateStatistics")) {
                 JSONObject result = new JSONObject();
                 if (!request.getParameter("id").isEmpty()
-                        && !request.getParameter("name").isEmpty()
-                        && !request.getParameter("category").isEmpty()
-                        && !request.getParameter("description").isEmpty()
-                        && !request.getParameter("releasedate").isEmpty()) {
+                        && !request.getParameter("gameId").isEmpty()
+                        && !request.getParameter("userId").isEmpty()
+                        && !request.getParameter("firstPlayed").isEmpty()
+                        && !request.getParameter("lastPlayed").isEmpty()
+                        && !request.getParameter("playedMinutes").isEmpty()) {
                     try {
                         Integer id = Integer.parseInt(request.getParameter("id"));
-                        String name = request.getParameter("name");
-                        String category = request.getParameter("category");
-                        String description = request.getParameter("description");
-                        Date releaseDate = Date.valueOf(request.getParameter("releasedate"));
+                        Integer gameId = Integer.parseInt(request.getParameter("gameId"));
+                        Integer userId = Integer.parseInt(request.getParameter("userId"));
+                        Date firstPlayed = Date.valueOf(request.getParameter("firstPlayed"));
+                        Date lastPlayed = Date.valueOf(request.getParameter("lastPlayed"));
+                        Integer playedMinutes = Integer.parseInt(request.getParameter("playedMinutes"));
 
-                        Game game = new Game(id, name, description, category, releaseDate);
-                        Boolean serviceResult = GameService.updateGame(game);
+                        Statistics statistics = new Statistics(id, gameId, userId, firstPlayed, lastPlayed, playedMinutes);
+                        Boolean serviceResult = StatisticsService.updateStatistics(statistics);
                         if (serviceResult != null) {
                             result.put("result", serviceResult);
                         } else {
@@ -131,12 +131,12 @@ public class StatisticsController extends HttpServlet {
                 out.println(result);
             }
 
-            if (request.getParameter("task").equals("deleteGame")) {
+            if (request.getParameter("task").equals("deleteStatistics")) {
                 JSONObject result = new JSONObject();
                 if (!request.getParameter("id").isEmpty()) {
                     try {
                         Integer id = Integer.parseInt(request.getParameter("id"));
-                        Boolean serviceResult = GameService.deleteGame(id);
+                        Boolean serviceResult = StatisticsService.deleteStatistics(id);
                         if (serviceResult != null) {
                             result.put("result", serviceResult);
                         } else {
@@ -153,46 +153,41 @@ public class StatisticsController extends HttpServlet {
                 out.println(result);
             }
 
-            if (request.getParameter("task").equals("likeGame")) {
-                JSONObject result = new JSONObject();
-                if (!request.getParameter("id").isEmpty()) {
-                    try {
-                        Integer id = Integer.parseInt(request.getParameter("id"));
-                        Boolean serviceResult = GameService.likeGame(id);
-                        if (serviceResult != null) {
-                            result.put("result", serviceResult);
-                        } else {
-                            result.put("result", "Hibás értékek!");
+            if (request.getParameter("task").equals("getMostActivePlayer")) {
+                JSONArray returnValue = new JSONArray();
+                try {
+                    List<Integer> serviceResult = StatisticsService.getMostActivePlayer();
+                    if (serviceResult.isEmpty()) {
+                        JSONObject obj = new JSONObject();
+                        obj.put("result", "Nincs user");
+                        returnValue.put(obj);
+                        out.print(returnValue.toString());
+                    } else {
+                        for (Integer id : serviceResult) {
+                            JSONObject obj = new JSONObject();
+                            obj.put("result", id);
+                            returnValue.put(obj);
                         }
-
-                    } catch (Exception e) {
-                        System.out.println("Hiba a JSON adatok beolvasásakor!");
                     }
 
-                } else {
-                    result.put("result", "A mezők nincsenek megfelelően kitöltve!");
+                } catch (Exception e) {
+                    System.out.println("Hiba a JSON adatok beolvasásakor!");
                 }
-                out.println(result);
+                out.println(returnValue);
             }
 
-            if (request.getParameter("task").equals("dislikeGame")) {
+            if (request.getParameter("task").equals("getTotalPlayedMinutes")) {
                 JSONObject result = new JSONObject();
-                if (!request.getParameter("id").isEmpty()) {
-                    try {
-                        Integer id = Integer.parseInt(request.getParameter("id"));
-                        Boolean serviceResult = GameService.dislikeGame(id);
-                        if (serviceResult != null) {
-                            result.put("result", serviceResult);
-                        } else {
-                            result.put("result", "Hibás értékek!");
-                        }
-
-                    } catch (Exception e) {
-                        System.out.println("Hiba a JSON adatok beolvasásakor!");
+                try {
+                    Integer serviceResult = StatisticsService.getTotalPlayedMinutes();
+                    if (serviceResult != null) {
+                        result.put("result", serviceResult);
+                    } else {
+                        result.put("result", "Hibás értékek!");
                     }
 
-                } else {
-                    result.put("result", "A mezők nincsenek megfelelően kitöltve!");
+                } catch (Exception e) {
+                    System.out.println("Hiba a JSON adatok beolvasásakor!");
                 }
                 out.println(result);
             }
