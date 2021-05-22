@@ -22,6 +22,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import org.json.JSONObject;
 
 /**
  *
@@ -84,6 +85,30 @@ public class CouponType implements Serializable {
         this.purchaseable = purchaseable;
         this.lasts = lasts;
         this.isactive = isactive;
+    }
+    
+    public CouponType(String shop, Integer value, Boolean purchaseable, Integer lasts) {
+        this.shop = shop;
+        this.value = value;
+        this.purchaseable = purchaseable;
+        this.lasts = lasts;
+    }
+    public CouponType(Integer couponTypeId, String shop, Integer value, Boolean purchaseable, Integer lasts) {
+        this.couponTypeId = couponTypeId;
+        this.shop = shop;
+        this.value = value;
+        this.purchaseable = purchaseable;
+        this.lasts = lasts;
+    }
+    
+    public JSONObject toJson(){
+        JSONObject object = new JSONObject();
+        object.put("id",this.couponTypeId);
+        object.put("shop",this.shop);
+        object.put("value",this.value);
+        object.put("purchaseable",this.purchaseable);
+        object.put("lasts",this.lasts);
+        return object;
     }
 
     public Integer getCouponTypeId() {
