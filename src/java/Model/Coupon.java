@@ -22,6 +22,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
+import org.json.JSONObject;
 
 /**
  *
@@ -70,6 +71,22 @@ public class Coupon implements Serializable {
         this.couponId = couponId;
         this.purchaseDate = purchaseDate;
         this.isactive = isactive;
+    }
+    
+    public Coupon(Integer couponId, CouponType couponTypeId, User userId) {
+        this.couponId = couponId;
+        this.couponTypeId = couponTypeId;
+        this.userId = userId;
+    }
+    
+                
+    public JSONObject toJson(){
+        JSONObject object = new JSONObject();
+        object.put("id: ",this.couponId);
+        object.put("purchase date: ",this.purchaseDate);
+        object.put("user: ",this.userId);
+        object.put("coupon type: ",this.couponTypeId);
+        return object;
     }
 
     public Integer getCouponId() {

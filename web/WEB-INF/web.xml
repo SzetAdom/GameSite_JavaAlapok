@@ -4,9 +4,25 @@
         <servlet-name>GameController</servlet-name>
         <servlet-class>Controller.GameController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>CouponController</servlet-name>
+        <servlet-class>Controller.CouponController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CouponTypeController</servlet-name>
+        <servlet-class>Controller.CouponTypeController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>GameController</servlet-name>
         <url-pattern>/GameController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CouponController</servlet-name>
+        <url-pattern>/CouponController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CouponTypeController</servlet-name>
+        <url-pattern>/CouponTypeController</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
