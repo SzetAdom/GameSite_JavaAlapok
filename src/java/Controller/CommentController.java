@@ -1,4 +1,3 @@
-
 package Controller;
 
 import Model.Comment;
@@ -15,13 +14,12 @@ import javax.servlet.http.HttpServletResponse;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-
 public class CommentController extends HttpServlet {
 
-    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
+        response.setContentType("application/json;charset=UTF-8");
+        request.setCharacterEncoding("UTF-8");
         try (PrintWriter out = response.getWriter()) {
             if (request.getParameter("task").equals("addComment")) {
                 JSONObject result = new JSONObject();
@@ -145,7 +143,6 @@ public class CommentController extends HttpServlet {
                 out.println(result);
             }
 
-            
         }
     }
 
