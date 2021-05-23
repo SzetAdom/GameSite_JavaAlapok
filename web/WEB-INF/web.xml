@@ -12,6 +12,10 @@
         <servlet-name>CouponTypeController</servlet-name>
         <servlet-class>Controller.CouponTypeController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>UserController</servlet-name>
+        <servlet-class>Controller.UserController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>GameController</servlet-name>
         <url-pattern>/GameController</url-pattern>
@@ -23,6 +27,10 @@
     <servlet-mapping>
         <servlet-name>CouponTypeController</servlet-name>
         <url-pattern>/CouponTypeController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UserController</servlet-name>
+        <url-pattern>/UserController</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
