@@ -16,6 +16,10 @@
         <servlet-name>UserController</servlet-name>
         <servlet-class>Controller.UserController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>CommentController</servlet-name>
+        <servlet-class>Controller.CommentController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>GameController</servlet-name>
         <url-pattern>/GameController</url-pattern>
@@ -32,9 +36,11 @@
         <servlet-name>UserController</servlet-name>
         <url-pattern>/UserController</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CommentController</servlet-name>
+        <url-pattern>/CommentController</url-pattern>
+    </servlet-mapping>
     <session-config>
-        <session-timeout>
-            30
-        </session-timeout>
+        <session-timeout>30</session-timeout>
     </session-config>
 </web-app>

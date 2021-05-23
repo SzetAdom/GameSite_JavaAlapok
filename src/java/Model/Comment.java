@@ -28,6 +28,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import org.json.JSONObject;
 
 /**
  *
@@ -94,6 +95,21 @@ public class Comment implements Serializable {
         this.time = time;
         this.likes = likes;
         this.isactive = isactive;
+    }
+    
+    public Comment(String text, int likes, User userId, Game gameId) {
+        this.text = text;
+        this.likes = likes;
+        this.userId = userId;
+        this.gameId = gameId;
+    }
+    
+    public Comment(Integer commentId, String text, int likes, User userId, Game gameId) {
+        this.commentId = commentId;
+        this.text = text;
+        this.likes = likes;
+        this.userId = userId;
+        this.gameId = gameId;
     }
 
     public Integer getCommentId() {
@@ -192,6 +208,19 @@ public class Comment implements Serializable {
     @Override
     public String toString() {
         return "Model.Comment[ commentId=" + commentId + " ]";
+    }
+    
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("id: ", commentId);
+        json.put("text: ", text);
+        json.put("likes: ", likes);
+        json.put("userid: ", userId);
+        json.put("gameId: ", gameId);
+        json.put("replyTo: ", replyToId);
+        json.put("time: ", time);
+
+        return json;
     }
 
 }
