@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 23, 2021 at 03:03 PM
+-- Generation Time: May 23, 2021 at 05:34 PM
 -- Server version: 10.4.17-MariaDB
 -- PHP Version: 8.0.1
 
@@ -91,6 +91,12 @@ UPDATE statistics SET statistics.isactive = 0 WHERE statistics.statistics_id = i
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `logicalDeleteUser` (IN `in_id` INT(11))  NO SQL
 UPDATE user SET user.isactive = 0 WHERE user.user_id = in_id$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `login` (IN `in_username` VARCHAR(20), IN `in_password` TEXT, OUT `out_res` INT)  NO SQL
+SELECT COUNT(*) into out_res FROM user WHERE user.username = in_username AND user.password = SHA1(in_password)$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `updateUserPassword` (IN `in_id` INT(11), IN `in_old` TEXT, IN `in_password` TEXT)  NO SQL
+UPDATE user SET user.password = SHA1(in_password) WHERE user.user_id = in_id AND user.password = SHA1(in_old)$$
 
 DELIMITER ;
 
@@ -214,7 +220,9 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`user_id`, `username`, `password`, `email`, `birth_date`, `isadmin`, `currentpoints`, `isactive`) VALUES
-(3, 'Username', '5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8', 'email@mail.com', '2001-04-05', 1, 0, 1);
+(3, 'Username', '5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8', 'email@mail.com', '2001-04-05', 1, 0, 1),
+(8, 'Tomi', '4898ad7226388e533665a5bbf7a369cfd7c5c79f', 'teszt@mail.net', '2000-01-12', 1, 12, 1),
+(9, 'Péter', 'b7527bfd3e82e31142e7742e75e57e45ce0df0f0', 'proba@mail.net', '2001-01-12', 1, 12, 1);
 
 --
 -- Indexes for dumped tables
@@ -300,7 +308,7 @@ ALTER TABLE `statistics`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- Constraints for dumped tables
