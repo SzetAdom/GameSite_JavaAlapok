@@ -28,12 +28,14 @@ public class CouponTypeService {
         return CouponTypeRepo.getAllPurchaseableCouponTypes();
     }
     public static String logicalDeleteCouponType(Integer id){
-        if(CouponTypeRepo.logicalDeleteCouponType(id)){
-                return "A törlés sikeres";
-            }
-            else{
-                return "A törlés nem sikerült";
-            }
+        if (id > 0) {
+            if( CouponTypeRepo.logicalDeleteCouponType(id))
+                return "sikeres törlés";
+            else return " a törlés nem sikerült";
+        } else {
+            System.out.println("Hibás értékek");
+            return null;
+        }
     }
     
     public static CouponType getCouponTypeById(Integer id){

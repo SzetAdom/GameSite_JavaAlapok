@@ -60,7 +60,7 @@ public class CouponTypeRepo {
         List<CouponType> result = new ArrayList();
         try{
             EntityManager em = Database.getDbConn();
-            StoredProcedureQuery spq = em.createStoredProcedureQuery("getAllPurchaseadbleCouponTypes");
+            StoredProcedureQuery spq = em.createStoredProcedureQuery("getAllPurchaseableCouponTypes");
             
             
             List<Object[]> couponTypes = spq.getResultList();
