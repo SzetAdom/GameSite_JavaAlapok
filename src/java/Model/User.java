@@ -26,6 +26,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import org.json.JSONObject;
 
 /**
  *
@@ -108,6 +109,25 @@ public class User implements Serializable {
         this.isadmin = isadmin;
         this.currentpoints = currentpoints;
         this.isactive = isactive;
+    }
+
+    public User(String username, String password, String email, java.sql.Date birthDate, Boolean admin, Integer currentPoints) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.birthDate = birthDate;
+        this.isadmin = admin;
+        this.currentpoints = currentPoints;
+    }
+
+    public User(Integer id, String username, String password, String email, java.sql.Date birthDate, Boolean admin, Integer currentPoints) {
+        this.userId = id;
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.birthDate = birthDate;
+        this.isadmin = admin;
+        this.currentpoints = currentPoints;
     }
 
     public Integer getUserId() {
@@ -223,7 +243,24 @@ public class User implements Serializable {
 
     @Override
     public String toString() {
-        return "Model.User[ userId=" + userId + " ]";
+        return "id: " + userId
+                + ", username: " + username
+                + ", email: " + email
+                + ", birth date: " + birthDate
+                + ", admin: " + isadmin
+                + ", current points: " + currentpoints;
+    }
+
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("id: ", userId);
+        json.put("username: ", username);
+        json.put("email: ", email);
+        json.put("birth date: ", birthDate);
+        json.put("admin: ", isadmin);
+        json.put("current points: ", currentpoints);
+
+        return json;
     }
 
 }

@@ -218,10 +218,10 @@ public class Game implements Serializable {
     public String toString() {
         return "id: " + gameId
                 + ", name: " + name
-                + ", category: " + name
-                + ", description: " + name
-                + ", likes: " + name
-                + ", releaseDate: " + name;
+                + ", category: " + category
+                + ", description: " + description
+                + ", likes: " + likes
+                + ", releaseDate: " + releasedate;
     }
 
     public JSONObject toJson() {
