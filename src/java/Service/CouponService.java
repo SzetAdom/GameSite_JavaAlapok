@@ -30,12 +30,14 @@ public class CouponService {
     }
     
     public static String logicalDeleteCoupon(Integer id){
-        if(CouponRepo.logicalDeleteCoupon(id)){
-                return "Success";
-            }
-            else{
-                return "Logical delete failed";
-            }
+        if (id > 0) {
+            if( CouponRepo.logicalDeleteCoupon(id))
+                return "sikeres törlés";
+            else return " a törlés nem sikerült";
+        } else {
+            System.out.println("Hibás értékek");
+            return null;
+        }
     }
     
     public static Coupon getCouponById(Integer id){
